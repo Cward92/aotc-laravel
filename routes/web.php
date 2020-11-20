@@ -1,6 +1,7 @@
-<?php
+<?php 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\UsersController;
+use Illuminate\Http\Request;
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
@@ -21,4 +22,16 @@ $router->get('/', function () use ($router) {
 
 $router->get('/welcome', function () use ($router){
     return "Hello World";
+});
+
+$router->post('/register', 'UsersController@register');
+
+$router->get('/api/user', function(Request $request) {
+    return $request->user();
+});
+
+$router->group(['middleware' => 'auth'], function () use ($router) {
+    $router->get('/helloUser', function () {
+        return 'Hello';
+    });
 });
